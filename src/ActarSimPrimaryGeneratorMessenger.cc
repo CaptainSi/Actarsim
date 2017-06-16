@@ -233,10 +233,10 @@ ActarSimPrimaryGeneratorMessenger::ActarSimPrimaryGeneratorMessenger(ActarSimPri
 
   randomThetaCmd = new G4UIcmdWithAString("/ActarSim/gun/randomTheta",this);
   randomThetaCmd->SetGuidance("Select a random Theta angle for the scattered particle.");
-  randomThetaCmd->SetGuidance("  Choice : on(default), off");
+  randomThetaCmd->SetGuidance("  Choice : on(default), off, ext");
   randomThetaCmd->SetParameterName("choice",true);
   randomThetaCmd->SetDefaultValue("on");
-  randomThetaCmd->SetCandidates("on off");
+  randomThetaCmd->SetCandidates("on off ext");
   randomThetaCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   randomPhiCmd = new G4UIcmdWithAString("/ActarSim/gun/randomPhi",this);
@@ -612,10 +612,10 @@ ActarSimPrimaryGeneratorMessenger::ActarSimPrimaryGeneratorMessenger(ActarSimPri
 
   randomVertexZPositionCmd = new G4UIcmdWithAString("/ActarSim/gun/randomVertexZPosition",this);
   randomVertexZPositionCmd->SetGuidance("Randomize the reaction vertex Z position");
-  randomVertexZPositionCmd->SetGuidance("Choice : on(default), off");
+  randomVertexZPositionCmd->SetGuidance("Choice : on(default), off , ext");
   randomVertexZPositionCmd->SetParameterName("choice",true);
   randomVertexZPositionCmd->SetDefaultValue("on");
-  randomVertexZPositionCmd->SetCandidates("on off");
+  randomVertexZPositionCmd->SetCandidates("on off ext");
   randomVertexZPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   randomVertexZPositionRangeCmd = new G4UIcommand("/ActarSim/gun/randomVertexZRange", this);

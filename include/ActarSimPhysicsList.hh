@@ -12,6 +12,7 @@
 
 #include "G4VModularPhysicsList.hh"
 #include "globals.hh"
+#include "/Applications/ROOT6/root-6.08.06/core/base/inc/TString.h"
 
 class ActarSimPhysicsListMessenger;
 class ActarSimStepLimiterBuilder;
@@ -54,5 +55,44 @@ public:
 
   void AddPhysicsList(const G4String&);
   void SetVerbose(G4int val);
+    
+
+
 };
+
+//class CrossSectionVariable;
+//extern CrossSectionVariable _CrossSectionINTER_;
+//float couilledeloup;
+
+// MBabo variables
+
+class CrossSectionVariable
+{
+public:
+    float** dXS; // array of the cross section XS[beam_energy][angle]
+    float *XEnergy; // array of the energy of the beam
+    float *XAngle; // array of the angle with respect to beam direction
+    float *XSIntegral; // total cross section as a function of the energy
+    int number_energies;
+    int number_angles;
+   
+public:
+    CrossSectionVariable();
+    ~CrossSectionVariable();
+    //void SetCrossSectionVariable(CrossSectionVariable);
+   // CrossSectionVariable GetCrossSectionVariable(CrossSectionVariable);
+
+};
+
+CrossSectionVariable ReadCrossSectionFile(TString);
+//void AddAngularCrossSection();
+float SetAngleFromCrossSection(CrossSectionVariable, int);
+//float** ReadCrossSectionFile(TString);
+float DrawAngularCrossSection();
+float GetIntegralCrossSection(CrossSectionVariable, float);
+float SetEnergybeamFromCrossSection(CrossSectionVariable);
+float GetZpositionVertex(float);
+
+
+
 #endif

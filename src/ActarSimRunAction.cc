@@ -15,6 +15,8 @@
 
 #include "ActarSimROOTAnalysis.hh"
 
+//#include "ActarSimPrimaryGeneratorAction.hh"
+
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 
@@ -48,6 +50,8 @@ void ActarSimRunAction::BeginOfRunAction(const G4Run* aRun) {
 
   // Histogramming
   if (gActarSimROOTAnalysis) gActarSimROOTAnalysis->BeginOfRunAction(aRun);
+
+
 }
 
 //////////////////////////////////////////////////////////////////

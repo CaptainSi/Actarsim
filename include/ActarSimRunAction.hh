@@ -12,6 +12,9 @@
 
 #include "G4UserRunAction.hh"
 #include "globals.hh"
+#include "ActarSimPhysicsList.hh"
+
+
 
 class G4Run;
 
@@ -23,4 +26,6 @@ public:
   void BeginOfRunAction(const G4Run*);
   void EndOfRunAction(const G4Run*);
 };
+
+
 #endif

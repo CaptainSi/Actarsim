@@ -17,10 +17,12 @@
 #include "ActarSimGasDetectorConstruction.hh"
 #include "ActarSimPrimaryGeneratorMessenger.hh"
 
+//#include "ActarSimPhysicsList.hh"
 #include "ActarSimROOTAnalysis.hh"
 #include "ActarSimCinePrimGenerator.hh"
 #include "ActarSimKinePrimGenerator.hh"
 #include "ActarSimEulerTransformation.hh"
+//#include "ActarSimRunAction.hh"
 
 #include "ActarSimBeamInfo.hh"
 
@@ -58,6 +60,10 @@ ActarSimPrimaryGeneratorAction::ActarSimPrimaryGeneratorAction()
 
   //create a particleGun
   particleGun = new G4ParticleGun(1);
+       
+  //cross section from MB
+       // should set here the initialization
+ // _CrossSectionINTER_ ;
 
   //create a messenger for this class
   gunMessenger = new ActarSimPrimaryGeneratorMessenger(this);
@@ -72,7 +78,8 @@ ActarSimPrimaryGeneratorAction::ActarSimPrimaryGeneratorAction()
   particleGun->SetParticleCharge(1.0);
   particleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
   particleGun->SetParticleEnergy(1*MeV);
-
+       
+    
   //NOTE: FOR THE MOMENT THIS IS NOT ACCESIBLE. REVIEW IN THE FUTURE
   //create a pointer that gives access to the tabulated xs
   //pReadEvGen = new ActarSimEventGenerator();
@@ -142,6 +149,7 @@ ActarSimPrimaryGeneratorAction::~ActarSimPrimaryGeneratorAction() {
 ///
 /// - CASE F  Particle selected manually (using the messenger commands)
 void ActarSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
+      
   const G4int verboseLevel = G4RunManager::GetRunManager()->GetVerboseLevel();
   if(verboseLevel>0)
     G4cout << G4endl << " _____ G4RunManager VerboseLevel = " <<verboseLevel<< G4endl;
@@ -163,11 +171,13 @@ void ActarSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
     else
       lengthParameter = gasDetector->GetGasBoxSizeZ();
 
+      
     if(verboseLevel>0){
       G4cout << "##################################################################" << G4endl
 	     << "##### ActarSimPrimaryGeneratorAction::GeneratePrimaries()  #######" << G4endl
 	     << "##### Information: Length of gas volume = " << lengthParameter << "    ######" << G4endl;
       G4cout << "##################################################################" << G4endl;
+
     }
   }
   //
@@ -256,11 +266,33 @@ void ActarSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
       else if(randomVertexZPositionFlag=="on"){
         vertex_z0 = randomVertexZPositionMin + G4UniformRand()*(randomVertexZPositionMax-randomVertexZPositionMin);
       }
+    
       // TODO: The probability of interaction is simply constant over the path on the gas.
       // This is the right place for introducing some dependence with the ion energy using
       // the reaction cross section, or even a simple exponential if a constant cross sections
       // approximation is suitable (non-resonant beam)
 
+//----------- added by M Babo for the angular distribution-----------------//
+
+      else if(randomVertexZPositionFlag=="ext"){
+
+         //read the file = is it mandatory ? because I don't want that to be done every time ...
+          if(std::ifstream("../cross_section_2.dat"))
+          { G4cout << "Cross Section file read" << G4endl; }
+          else {G4cout << "Cross Section File not found but empty file was created." << G4endl ;
+              ofstream("../cross_section_2.dat");}
+       
+      _CrossSectionINTER_ = ReadCrossSectionFile("../cross_section_2.dat");
+      float InterBeamEnergy = SetEnergybeamFromCrossSection(_CrossSectionINTER_);
+      vertex_z0 = GetZpositionVertex(InterBeamEnergy);
+         // G4cout << "beam energy and position " << GetZpositionVertex(InterBeamEnergy) << " ; "<< InterBeamEnergy <<G4endl ;
+      }
+        G4cout << "Position of the vertex is " <<vertex_z0 << G4endl ;
+
+
+ 
+//----------------------------------------------------------------------//
+        
       pBeamInfo->SetNextZVertex(vertex_z0);
       pBeamInfo->SetEnergyEntrance(GetIncidentEnergy()); //no need of nextEnergyEntrance, as all entry energies are the same. If this is not true in future, an additional datamember for beamInfo will be needed
 
@@ -869,6 +901,13 @@ void ActarSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
         G4cout << " *** random CM Theta = " << GetThetaCMAngle() << ", it is "
                << GetThetaCMAngle()/rad << " rad = "
                << GetThetaCMAngle()/deg << " deg "<< G4endl;
+    }
+    else if(randomThetaFlag == "ext")
+    {
+        float angle_XS = SetAngleFromCrossSection(_CrossSectionINTER_, 2);
+        KINE->SetThetaCMAngle(180-angle_XS);
+        //KINE->SetThetaCMAngle(45);
+        G4cout << "Angle CM from transfer calculations: " << angle_XS << G4endl;
     }
     else {
       KINE->SetThetaCMAngle(GetThetaCMAngle()/deg);  // units: degree

@@ -19,6 +19,7 @@
 #include "G4ParticleGun.hh"
 #include "G4ParticleMomentum.hh"
 #include "globals.hh"
+#include "ActarSimPhysicsList.hh"
 
 #include "ActarSimEventGenerator.hh"
 
@@ -37,6 +38,8 @@ private:
 
   ActarSimGasDetectorConstruction* gasDetector;    ///< Pointer to gas detector constructor, to get some geometrical info
 
+  CrossSectionVariable _CrossSectionINTER_;
+
   G4Ions* incidentIon;          ///< Pointer to incident ion
   G4Ions* targetIon;            ///< Pointer to target ion
   G4Ions* scatteredIon;         ///< Pointer to scattered ion
@@ -49,6 +52,7 @@ private:
   G4double labEnergy;           ///< Laboratory energy
   G4double incidentEnergy;      ///< Total incident ion energy
   G4double thetaLabAngle;       ///< Polar angle in the laboratory system
+
 
   G4String randomVertexZPositionFlag; ///< Flag to control the (random) Z position of the vertex
   G4double randomVertexZPositionMin;  ///< Minimum value for the (random) Z position of the vertex
@@ -261,4 +265,8 @@ public:
   G4double GetThetaLabAngle(){return thetaLabAngle;}
   G4double GetVertexZPosition(){return vertexZPosition;}
 };
+
+
+//extern CrossSectionVariable _CrossSectionINTER_;
+
 #endif
