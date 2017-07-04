@@ -63,7 +63,7 @@ public:
 //class CrossSectionVariable;
 //extern CrossSectionVariable _CrossSectionINTER_;
 //float couilledeloup;
-
+/*
 // MBabo variables
 
 class CrossSectionVariable
@@ -93,6 +93,6 @@ float GetIntegralCrossSection(CrossSectionVariable, float);
 float SetEnergybeamFromCrossSection(CrossSectionVariable);
 float GetZpositionVertex(float);
 
-
+*/
 
 #endif

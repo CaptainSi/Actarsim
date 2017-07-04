@@ -49,6 +49,8 @@
 #include "ActarSimSteppingAction.hh"
 #include "ActarSimSteppingVerbose.hh"
 #include "ActarSimROOTAnalysis.hh"
+#include "ActarSimCrossSectionVariable.hh"
+
 
 int main(int argc,char** argv)
 {
@@ -63,7 +65,11 @@ int main(int argc,char** argv)
   
   // Construct the default run manager
   G4RunManager* runManager = new G4RunManager;
-  
+    
+  CrossSectionVariable _CrossSectionINTER_ = ReadCrossSectionFile("../cross_section_2.dat");
+  //_CrossSectionINTER_.ReadCrossSectionFile("../cross_section_2.dat");
+
+    
   // set mandatory initialization classes
   ActarSimDetectorConstruction* detector = new ActarSimDetectorConstruction;
   runManager->SetUserInitialization(detector);
@@ -98,7 +104,7 @@ int main(int argc,char** argv)
 #endif
   
   // set mandatory user action class
-  runManager->SetUserAction(new ActarSimPrimaryGeneratorAction);
+  runManager->SetUserAction(new ActarSimPrimaryGeneratorAction(_CrossSectionINTER_));
   runManager->SetUserAction(new ActarSimRunAction);
   ActarSimEventAction* eventaction = new ActarSimEventAction;
   runManager->SetUserAction(eventaction);

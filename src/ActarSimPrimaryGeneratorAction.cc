@@ -16,6 +16,7 @@
 #include "ActarSimDetectorConstruction.hh"
 #include "ActarSimGasDetectorConstruction.hh"
 #include "ActarSimPrimaryGeneratorMessenger.hh"
+#include "ActarSimCrossSectionVariable.hh"
 
 //#include "ActarSimPhysicsList.hh"
 #include "ActarSimROOTAnalysis.hh"
@@ -46,7 +47,7 @@ using namespace std;
 
 //////////////////////////////////////////////////////////////////
 /// Constructor: init values are filled
-ActarSimPrimaryGeneratorAction::ActarSimPrimaryGeneratorAction()
+ActarSimPrimaryGeneratorAction::ActarSimPrimaryGeneratorAction(CrossSectionVariable CSV)
   :gasDetector(0), incidentIon(0),targetIon(0),scatteredIon(0),recoilIon(0),
    beamInteractionFlag("off"),
    realisticBeamFlag("off"), reactionFromEvGenFlag("off"), reactionFromCrossSectionFlag("off"),
@@ -58,6 +59,9 @@ ActarSimPrimaryGeneratorAction::ActarSimPrimaryGeneratorAction()
   particleTable = G4ParticleTable::GetParticleTable();
   ionTable = G4IonTable::GetIonTable();
 
+    //oui oui
+    fCSV=CSV;
+       
   //create a particleGun
   particleGun = new G4ParticleGun(1);
        
@@ -282,8 +286,9 @@ void ActarSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
           else {G4cout << "Cross Section File not found but empty file was created." << G4endl ;
               ofstream("../cross_section_2.dat");}
        
-      _CrossSectionINTER_ = ReadCrossSectionFile("../cross_section_2.dat");
-      float InterBeamEnergy = SetEnergybeamFromCrossSection(_CrossSectionINTER_);
+          CrossSectionVariable _CrossSectionINTER_ = GetCrossSectionMatrix();//ReadCrossSectionFile("../cross_section_2.dat");
+          float InterBeamEnergy = _CrossSectionINTER_.SetEnergybeamFromCrossSection();
+          //InterBeamEnergy= 5;
       vertex_z0 = GetZpositionVertex(InterBeamEnergy);
          // G4cout << "beam energy and position " << GetZpositionVertex(InterBeamEnergy) << " ; "<< InterBeamEnergy <<G4endl ;
       }
@@ -904,9 +909,9 @@ void ActarSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
     }
     else if(randomThetaFlag == "ext")
     {
-        float angle_XS = SetAngleFromCrossSection(_CrossSectionINTER_, 2);
-        KINE->SetThetaCMAngle(180-angle_XS);
-        //KINE->SetThetaCMAngle(45);
+       float angle_XS = GetCrossSectionMatrix().SetAngleFromCrossSection(1);
+        KINE->SetThetaCMAngle(angle_XS); // because it is for the scattered ion, which is not the proton
+       // KINE->SetThetaCMAngle(5);
         G4cout << "Angle CM from transfer calculations: " << angle_XS << G4endl;
     }
     else {

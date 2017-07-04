@@ -105,6 +105,7 @@ set(ActarSim_HEADERS ${PROJECT_SOURCE_DIR}/include/ActarSimData.hh
 		     ${PROJECT_SOURCE_DIR}/include/ActarSimSciRingHit.hh
 		     ${PROJECT_SOURCE_DIR}/include/ActarSimPlaHit.hh
 		     ${PROJECT_SOURCE_DIR}/include/ActarSimPrimaryInfo.hh
+		     ${PROJECT_SOURCE_DIR}/include/ActarSimCrossSectionVariable.hh
 		     ${PROJECT_SOURCE_DIR}/include/ActarSimBeamInfo.hh
 		     )
 set(ActarSim_LINKDEF ${PROJECT_SOURCE_DIR}/src/ActarSimLinkDef.hh )
@@ -149,7 +150,7 @@ gui.mac
 vis_actarTPCDEMO.mac
 vis_actarTPC.mac
 vis_maiko.mac
-vis_kine.mac
+#vis_kine.mac
 vis_alpha.mac
 vis_simpleBox.mac
 vis_simpleTube.mac

@@ -22,11 +22,13 @@
 #include "ActarSimPhysicsList.hh"
 
 #include "ActarSimEventGenerator.hh"
+#include "ActarSimCrossSectionVariable.hh"
 
 class G4Event;
 class ActarSimPrimaryGeneratorMessenger;
 class ActarSimDetectorConstruction;
 class ActarSimGasDetectorConstruction;
+class CrossSectionVariable;
 
 class ActarSimPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
 private:
@@ -38,7 +40,7 @@ private:
 
   ActarSimGasDetectorConstruction* gasDetector;    ///< Pointer to gas detector constructor, to get some geometrical info
 
-  CrossSectionVariable _CrossSectionINTER_;
+  CrossSectionVariable fCSV;
 
   G4Ions* incidentIon;          ///< Pointer to incident ion
   G4Ions* targetIon;            ///< Pointer to target ion
@@ -101,10 +103,12 @@ private:
   G4String  randomPhiAngleFlag;    ///< Flag for a random phi angle
 
 public:
-  ActarSimPrimaryGeneratorAction();
+  ActarSimPrimaryGeneratorAction(CrossSectionVariable CSV);
   ~ActarSimPrimaryGeneratorAction();
 
   void GeneratePrimaries(G4Event* anEvent);
+    
+    CrossSectionVariable GetCrossSectionMatrix() {return fCSV;}
 
   void SetReactionFromCineFlag(G4String val) { reactionFromCineFlag = val;}
   void SetIncidentIon(G4Ions* aIonDef) { incidentIon = aIonDef;}

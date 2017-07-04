@@ -198,22 +198,30 @@
 #/ActarSim/gun/Kine/incidentIon 1 2 1 0.0 2.0141
 #/ActarSim/gun/Kine/incidentIon 2 4 2 0.0 4.001506179125
 #/ActarSim/gun/Kine/incidentIon 2 4 2 0.0 4.00260325
-/ActarSim/gun/Kine/incidentIon 6 12 6 0.0 12.
+#/ActarSim/gun/Kine/incidentIon 6 12 6 0.0 12.
 #/ActarSim/gun/Kine/incidentIon 6 13 6 0.0 13.00335483778
 #/ActarSim/gun/Kine/incidentIon 50 132 50 0.0 131.9178
 
 #/ActarSim/gun/Kine/targetIon 1 1 1 0.0 1.00782503207
-/ActarSim/gun/Kine/targetIon 1 2 1 0.0 2.0141
+#/ActarSim/gun/Kine/targetIon 1 2 1 0.0 2.0141
 
 #/ActarSim/gun/Kine/scatteredIon 1 2 1 0.0 2.0141
 #/ActarSim/gun/Kine/scatteredIon 2 4 2 0.0 4.001506179125
 #/ActarSim/gun/Kine/scatteredIon 2 4 2 0.0 4.00260325
-/ActarSim/gun/Kine/scatteredIon 6 12 6 0.0 12.
+#/ActarSim/gun/Kine/scatteredIon 6 12 6 0.0 12.
 #/ActarSim/gun/Kine/scatteredIon 6 13 6 0.0 13.00335483778
 #/ActarSim/gun/Kine/scatteredIon 50 133 50 0.854 132.9238
 
 #/ActarSim/gun/Kine/recoilIon 1 1 1 0.0 1.00782503207
-/ActarSim/gun/Kine/recoilIon 1 2 1 0.0 2.0141
+#/ActarSim/gun/Kine/recoilIon 1 2 1 0.0 2.0141
+
+
+
+/ActarSim/gun/Kine/incidentIon 32 82 32 0.0 81.943177
+/ActarSim/gun/Kine/targetIon 1 2 1 0.0 2.0141
+/ActarSim/gun/Kine/scatteredIon 32 83 32 0.0 82.93454
+/ActarSim/gun/Kine/recoilIon 1 1 1 0.0 1.00782503207
+
 
 #/ActarSim/gun/time 0
 #/ActarSim/gun/polarization 0
@@ -224,8 +232,8 @@
 #/ActarSim/gun/vertexZPosition 0 mm
 
 #/ActarSim/gun/energy 80 MeV
-/ActarSim/gun/Kine/labEnergy 80 MeV
-/ActarSim/gun/Kine/randomThetaCM on
+/ActarSim/gun/Kine/labEnergy 574 MeV
+#/ActarSim/gun/Kine/randomThetaCM on
 /ActarSim/gun/Kine/randomThetaRange 0.0 180.0
 /ActarSim/gun/Kine/randomPhiAngle on
 #/ActarSim/gun/Kine/userThetaCM 100.0 deg
@@ -272,5 +280,14 @@
 /ActarSim/event/printModulo 10
 #
 # RUN: number of events
-#
-#/run/beamOn 100
+
+/ActarSim/gun/randomTheta ext
+/ActarSim/gun/randomVertexZPosition ext
+/tracking/storeTrajectory 0
+#/vis/disable
+/ActarSim/analControl/storeSimpleTracks on
+/ActarSim/analControl/storeEvents on
+/run/beamOn 4
+
+
+
